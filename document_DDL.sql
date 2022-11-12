@@ -3,7 +3,7 @@ CREATE table cerificate_kind(
 	id INT AUTO_INCREMENT,
     certificate_name NVARCHAR(100) NOT NULL,
 	PRIMARY KEY(id)
-    );
+);
     
 # 증명서 테이블
 CREATE table certificate(
@@ -40,9 +40,9 @@ CREATE TABLE declarant_qualification (
 CREATE TABLE person_address(
 	id BIGINT AUTO_INCREMENT,
     #사람 고유 아이디
-    person_id BIGINT,
-    #주소 고유 아이디
-    address_id BIGINT,
+    person_id BIGINT NOT NULL,
+   #주소 고유 아이디
+    address_id BIGINT NOT NULL,
     #신고일
     report_date DATE NOT NULL,
     PRIMARY KEY(id),
