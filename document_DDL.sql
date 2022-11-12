@@ -19,9 +19,9 @@ CREATE table certificate(
     CONSTRAINT refer_certificate_id FOREIGN KEY(kind_id) REFERENCES certificate_kind(id)
 );
 
-# 주소 테이블
+# 장소 테이블
 CREATE TABLE location (
-	# 주소 아이디
+	# 장소 아이디
 	id INT AUTO_INCREMENT,
     # 구분
     classification NVARCHAR(30) NOT NULL,
