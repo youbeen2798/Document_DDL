@@ -127,10 +127,36 @@ CREATE TABLE death_detail(
 	CONSTRAINT refer_declarant_id FOREIGN KEY(declarant_id) REFERENCES declarant(id)
 );
 
-CREATE 
+# 세대 테이블
+CREATE TABLE household (
+	# 세대 고유 아이디
+	id BIGINT AUTO_INCREMENT,
+    # 세대주 고유 아이디
+    head_of_household BIGINT NOT NULL,
+    # 세대 구성 사유
+    reason_of_composition NVARCHAR(100) NOT NULL,
+    # 세대 구성 일자
+    date_of_composition DATE NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT refer_person_id FOREIGN KEY(head_of_household) REFERENCES person(id)
+);
 
-
-    
+# 사람 세대 테이블
+CREATE TABLE person_household (
+	# 사람 세대 고유 아이디
+	id BIGINT AUTO_INCREMENT,
+    # 사람 고유 아이디
+    person_id BIGINT NOT NULL,
+    # 세대 고유 아이디
+    household_id BIGINT NOT NULL,
+    # 신고일
+    report_date DATE NOT NULL,
+    # 변동 사유
+    reason_of_change NVARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT refer_person_id FOREIGN KEY(person_id) REFERENCES person(id),
+    CONSTRAINT refer_household_id FOREIGN KEY(household_id) REFERENCES household(id)
+);
     
     
 
