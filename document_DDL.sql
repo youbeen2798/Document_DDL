@@ -16,6 +16,7 @@ CREATE table certificate(
     # 발급일
     issue_date DATE NOT NULL,
     PRIMARY KEY(confirmation_number),
+	CONSTRAINT certificate_refer_person_id FOREIGN KEY(petitioner) REFERENCES person(id),
     CONSTRAINT certificate_refer_certificate_id FOREIGN KEY(kind_id) REFERENCES certificate_kind(id)
 );
 
