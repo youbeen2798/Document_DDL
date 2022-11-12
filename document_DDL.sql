@@ -31,13 +31,29 @@ CREATE TABLE location (
 # 신고인 자격 테이블
 CREATE TABLE declarant_qualification (
 	id INT AUTO_INCREMENT,
+    # 자격 이름
     qualification_name NVARCHAR(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
+#사람 주소 테이블
+CREATE TABLE person_address(
+	id BIGINT AUTO_INCREMENT,
+    #사람 고유 아이디
+    person_id BIGINT,
+    #주소 고유 아이디
+    address_id BIGINT,
+    #신고일
+    report_Date DATE NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT refer_person_id FOREIGN KEY(person_id) REFERENCES person(id),
+    CONSTRAINT refer_address_id FOREIGN KEY(address_id) REFERENCES address(id)
+); 
+
 # 주소 테이블
 CREATE TABLE address (
 	id BIGINT AUTO_INCREMENT,
+    #상세 주소
     detailed_address NVARCHAR(100) NOT NULL,
 	PRIMARY KEY (id)
 );
@@ -45,24 +61,78 @@ CREATE TABLE address (
 # 사람 테이블
 CREATE TABLE person (
 	id BIGINT AUTO_INCREMENT,
+    #이름
     name NVARCHAR(100) NOT NULL,
+    #주민 등록 번호
     resident_registration_number CHAR(300) UNIQUE NOT NULL,
+    #성별
     gender NCHAR(1) NOT NULL,
+    #생일
     birthday DATE NOT NULL,
+    #배우자
     spouse BIGINT,
     PRIMARY KEY (id),
     CONSTRAINT refer_spouse_id FOREIGN KEY (spouse) REFERENCES person(id)
 );
 
 
--- # 출생신고서 세부 정보 테이블
--- CREATE TABLE birth_detail (
--- 	id BIGINT,
---     birth_datetime DATETIME NOT NULL,
---     location_id INT NOT NULL,
---     declarant_id BIGINT NOT NULL,
---     report_date DATE NOT NULL,
---     PRIMARY KEY (id) REFERENCES 
+# 출생신고서 세부 정보 테이블
+CREATE TABLE birth_detail (
+	id BIGINT,
+    #출생 날짜 및 시간
+    birth_datetime DATETIME NOT NULL,
+    #태어난 장소 - locaiton.id 참조
+    location_id INT NOT NULL,
+    #신고인 - declarant.id 참조
+    declarant_id BIGINT NOT NULL,
+    #신고 날짜 
+    report_date DATE NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT refer_person_id FOREIGN KEY(id) REFERENCES person(id),
+    CONSTRAINT refer_location_id FOREIGN KEY(location_id) REFERENCES location(id),
+    CONSTRAINT refer_declarant_id FOREIGN KEY(declarant_id) REFERENCES declarant(id)
+);
+
+#신고인 테이블
+CREATE TABLE declarant(
+	id BIGINT AUTO_INCREMENT,
+    #신고자 고유 아이디
+    person_id BIGINT NOT NULL,
+    #신고자 자격 - refer
+    qualification INT NOT NULL,
+    #신고인 이메일
+    email VARCHAR(50),
+    #신고인 전화번호
+    phone_number VARCHAR(20),
+    PRIMARY KEY(id),
+    CONSTRAINT refer_person_id FOREIGN KEY(person_id) REFERENCES person(id),
+	CONSTRAINT refer_declarant_qualification_id FOREIGN KEY(qualification) REFERENCES declarant_qualification(id)
+);
+
+# 사망신고서 세부 정보 테이블
+CREATE TABLE death_detail(
+	id BIGINT,
+    #사망 날짜 및 시간
+    death_datetime DATETIME NOT NULL,
+    #사망 장소 아이디
+    location_id INT NOT NULL,
+    #사망 상세 주소
+    death_location NVARCHAR(100) NOT NULL,
+    #신고자 고유 아이디
+    declarant_id BIGINT NOT NULL,
+    #신고일
+    report_date DATE NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT refer_location_id FOREIGN KEY(location_id) REFERENCES location(id),
+	CONSTRAINT refer_declarant_id FOREIGN KEY(declarant_id) REFERENCES declarant(id)
+);
+
+CREATE 
+
+
+    
+    
+    
 
     
     
