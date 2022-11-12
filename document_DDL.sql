@@ -10,7 +10,7 @@ CREATE table certificate(
 	# 증명서 확인번호
 	confirmation_number CHAR(16),
     # 신청인
-    petitoner BIGINT NOT NULL,
+    petitioner BIGINT NOT NULL,
     # 증명서 종류 - certificate_kind 참조
     kind_id INT NOT NULL,
     # 발급일
@@ -44,7 +44,7 @@ CREATE TABLE person_address(
     #주소 고유 아이디
     address_id BIGINT,
     #신고일
-    report_Date DATE NOT NULL,
+    report_date DATE NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT refer_person_id FOREIGN KEY(person_id) REFERENCES person(id),
     CONSTRAINT refer_address_id FOREIGN KEY(address_id) REFERENCES address(id)
